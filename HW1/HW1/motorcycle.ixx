@@ -2,6 +2,21 @@ import vehicle;
 
 export module motorcycle;
 
-export class Motorcyle : public Vehicle {
+export class Motorcycle : public Vehicle {
+private:
+	static int motorcycleCount;
+	std::string bodyType; // dirt, sport, touring, etc.
+public:
+	~Motorcycle() { motorcycleCount--; }
+	Motorcycle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand, std::string bodyType)
+		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
+		this->bodyType = bodyType;
+		motorcycleCount++;
+	}
 
+	int getCount() { return motorcycleCount; }
+
+	virtual std::string toString() const override {
+		return std::format("Total cars : {}", motorcycleCount);
+	};
 };

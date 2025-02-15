@@ -1,4 +1,5 @@
 import <string>;
+import <format>;
 import vehicleComponents;
 
 export module vehicle;
@@ -15,6 +16,14 @@ protected:
 
 public:
 	Vehicle() {};
+	Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand) {
+		this->brand = brand;
+		this->model = model;
+		this->year = year;
+		this->engine = engine;
+		this->wheelType = wheelType;
+		this->gpsBrand = gpsbrand;
+	}
 
 	void setBrand(std::string brand) { this->brand = brand; }
 	void setModel(std::string model) { this->model = model; }
