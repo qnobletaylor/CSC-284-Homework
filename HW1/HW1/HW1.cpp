@@ -1,6 +1,6 @@
 import <iostream>;
 import <memory>;
-import <map>;
+import <unordered_map>;
 import vehicle;
 import motorcycle;
 import car;
@@ -11,11 +11,11 @@ int Truck::truckCount = 0;
 int Motorcycle::motorcycleCount = 0;
 int Vehicle::vehicleCount = 0;
 
-void fillInventory(std::map < std::size_t, std::unique_ptr<Vehicle>>& inventory);
+void fillInventory(std::unordered_map < std::size_t, std::unique_ptr<Vehicle>>& inventory);
 
 int main()
 {
-    std::map<std::size_t, std::unique_ptr<Vehicle>> inventory{};
+    std::unordered_map<std::size_t, std::unique_ptr<Vehicle>> inventory{};
 
     fillInventory(inventory);
 
@@ -26,7 +26,7 @@ int main()
     return 0;
 }
 
-void fillInventory(std::map < std::size_t, std::unique_ptr<Vehicle>>& inventory) {
+void fillInventory(std::unordered_map < std::size_t, std::unique_ptr<Vehicle>>& inventory) {
     auto car1 = std::make_unique<Car>("Toyota", "Camry", 2022, "Sedan", 5);
     auto car2 = std::make_unique<Car>("Subaru", "Forester", 2012, "SUV", 5);
     inventory.emplace(car1->hashCode(), std::move(car1));

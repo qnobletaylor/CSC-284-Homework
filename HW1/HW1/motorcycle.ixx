@@ -13,7 +13,7 @@ public:
 		this->bodyType = bodyType;
 		motorcycleCount++;
 	}
-	Motorcycle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand, std::string bodyType)
+	Motorcycle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsBrand, std::string bodyType)
 		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
 		this->bodyType = bodyType;
 		motorcycleCount++;
