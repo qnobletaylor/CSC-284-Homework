@@ -29,6 +29,6 @@ public:
 	int getCount() { return truckCount; }
 
 	virtual std::string toString() const override {
-		return std::format("Brand : {} | Model : {} {}\nUses {}, equipped with {} tires and {} gps, carries up to {} lbs", brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
+		return std::format("{}, {} - {}\nUses {}, equipped with {} tires and {} gps\nTow Capacity - {} lbs", brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
 	};
 };
