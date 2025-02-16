@@ -33,9 +33,6 @@
     <ClCompile Include="vehicleComponents.ixx">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vehicle.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>

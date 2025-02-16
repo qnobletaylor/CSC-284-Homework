@@ -132,7 +132,6 @@
     <ClCompile Include="car.ixx" />
     <ClCompile Include="HW1.cpp" />
     <ClCompile Include="motorcycle.ixx" />
-    <ClCompile Include="test.ixx" />
     <ClCompile Include="truck.ixx" />
     <ClCompile Include="vehicle.cpp" />
     <ClCompile Include="vehicle.ixx" />

@@ -1,6 +1,6 @@
-import vehicle;
-
 export module truck;
+
+import vehicle;
 
 export class Truck : public Vehicle {
 private:
@@ -19,16 +19,19 @@ public:
 	}
 
 	// Getters/Setters
-	void setLoadCapacity(int loadCapacity) {
-		this->loadCapacity = loadCapacity;
-	}
-	int getLoadCapacity() {
-		return loadCapacity;
-	}
+	void setLoadCapacity(int loadCapacity) { this->loadCapacity = loadCapacity; }
+	int getLoadCapacity() const {	return loadCapacity; }
 
-	int getCount() { return truckCount; }
+	virtual int getCount() const { return truckCount; }
+
+	virtual std::size_t hashCode() const noexcept {
+		std::size_t h1 = std::hash<int>{}(loadCapacity);
+
+		return Vehicle::hashCode() ^ (h1 << 1);
+	}
 
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {}\nUses {}, equipped with {} tires and {} gps\nTow Capacity - {} lbs", brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
+		return std::format("{}, {} - {}\nUses {}, equipped with {} tires and {} gps\nTow Capacity - {} lbs", 
+			brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
 	};
 };

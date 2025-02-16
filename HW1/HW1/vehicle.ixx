@@ -1,6 +1,7 @@
 export module vehicle;
 
 import <string>;
+import <iostream>;
 import <format>;
 import vehicleComponents;
 
@@ -14,17 +15,12 @@ protected:
 	Wheel wheelType;
 	GPS gpsBrand;
 
+	static int vehicleCount;
+
 public:
-	Vehicle() {};
+	~Vehicle() { vehicleCount--; }
 	Vehicle(std::string brand, std::string model, int year) : Vehicle(brand, model, year, Engine::GAS, Wheel::ALLSEASON, GPS::GARMIN) {};
-	Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand) {
-		this->brand = brand;
-		this->model = model;
-		this->year = year;
-		this->engine = engine;
-		this->wheelType = wheelType;
-		this->gpsBrand = gpsbrand;
-	}
+	Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand);
 
 	// Setters
 	void setBrand(std::string brand) { this->brand = brand; }
@@ -34,16 +30,20 @@ public:
 	void setWheelType(Wheel wheelType) { this->wheelType = wheelType; }
 	void setGPSBrand(GPS gpsBrand) { this->gpsBrand = gpsBrand; }
 	//Getters
-	std::string getBrand() { return brand; }
-	std::string getModel() { return model; }
-	int getYear() { return year; }
-	Engine getEngine() { return engine; }
-	Wheel getWheelType() { return wheelType; }
-	GPS getGPSBrand() { return gpsBrand; }
+	std::string getBrand() const { return brand; }
+	std::string getModel() const { return model; }
+	int getYear() const { return year; }
+	Engine getEngine() const { return engine; }
+	Wheel getWheelType() const { return wheelType; }
+	GPS getGPSBrand() const { return gpsBrand; }
 
 	std::string getEngine(Engine) const;
 	std::string getWheel(Wheel) const;
 	std::string getGPS(GPS) const;
+
+	virtual int getCount() const { return vehicleCount; }
+
+	virtual std::size_t hashCode() const noexcept;
 
 	virtual std::string toString() const = 0;
 };
