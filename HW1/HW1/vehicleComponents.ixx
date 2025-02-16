@@ -1,13 +1,15 @@
 export module vehicleComponents;
 
-export enum Engine {
+import <string>;
+
+export enum class Engine {
 	GAS,
 	DIESEL,
 	ELECTRIC,
 	HYBRID
 };
 
-export enum Wheel {
+export enum class Wheel {
 	ALLSEASON,
 	OFFROAD,
 	WINTER,
@@ -16,7 +18,7 @@ export enum Wheel {
 	MUD
 };
 
-export enum GPS {
+export enum class GPS {
 	GARMIN,
 	TOMTOM,
 	NAVI
