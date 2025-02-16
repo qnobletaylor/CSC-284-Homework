@@ -13,11 +13,13 @@ public:
 	~Car() { 
 		std::cout << "Destroyed" << std::endl;
 		carCount--; }
+
 	Car(std::string brand, std::string model, int year, std::string bodyType, int seatCapacity) : Vehicle(brand, model, year) {
 		this->bodyType = bodyType;
 		this->seatCapacity = seatCapacity;
 		carCount++;
 	}
+
 	Car(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand, std::string bodyType, int seatCapacity)
 		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
 		this->bodyType = bodyType;
@@ -33,6 +35,9 @@ public:
 
 	virtual int getCount() const { return carCount; }
 
+	/**
+	 * Creates a hash code with the additional Car specific attributes.
+	 *  */
 	virtual std::size_t hashCode() const noexcept {
 		std::size_t h1 = std::hash<std::string>{}(bodyType);
 		std::size_t h2 = std::hash<int>{}(seatCapacity);
@@ -40,6 +45,9 @@ public:
 		return Vehicle::hashCode() ^ (h1 << 1) ^ (h2 << 2);
 	}
 
+	/**
+	 * Return a formatted string with the attributes of a Car.
+	 *  */
 	virtual std::string toString() const override {
 		return std::format("{}, {} - {} ({})\nUses {}, equipped with {} tires and {} gps\nseats {}", 
 			brand, model, year, bodyType, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), seatCapacity);

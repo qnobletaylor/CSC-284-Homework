@@ -1,6 +1,9 @@
 import vehicle;
 import <string>;
 
+/**
+ * Primary constructor for all vehicles
+ * */
 Vehicle::Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand) {
 	this->brand = brand;
 	this->model = model;
@@ -11,6 +14,9 @@ Vehicle::Vehicle(std::string brand, std::string model, int year, Engine engine, 
 	vehicleCount++;
 }
 
+/** 
+* Converts enum value to a string
+* */
 std::string Vehicle::getEngine(Engine engine) const {
 	switch (engine)
 	{
@@ -32,6 +38,9 @@ std::string Vehicle::getEngine(Engine engine) const {
 	}
 }
 
+/**
+ * Converts an enum value to a string.
+ * */
 std::string Vehicle::getWheel(Wheel wheel) const {
 	switch (wheel)
 	{
@@ -59,6 +68,9 @@ std::string Vehicle::getWheel(Wheel wheel) const {
 	}
 }
 
+/**
+ * Converts enum to a string. 
+ */
 std::string Vehicle::getGPS(GPS gps) const {
 	switch (gps)
 	{
@@ -77,6 +89,9 @@ std::string Vehicle::getGPS(GPS gps) const {
 	}
 }
 
+/**
+ * Creates a hash code using the attributes from a Vehicle object
+ *  */
 std::size_t Vehicle::hashCode() const noexcept {
 	std::size_t h1 = std::hash<std::string>{}(brand);
 	std::size_t h2 = std::hash<std::string>{}(model);

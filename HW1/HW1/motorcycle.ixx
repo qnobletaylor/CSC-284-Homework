@@ -25,12 +25,18 @@ public:
 
 	virtual int getCount() const { return motorcycleCount; }
 
+	/**
+	 * Creates a hash code with Motorcycle specific attributes.
+	 *  */
 	virtual std::size_t hashCode() const noexcept {
 		std::size_t h1 = std::hash<std::string>{}(bodyType);
 
 		return Vehicle::hashCode() ^ (h1 << 1);
 	}
 
+	/**
+	 * Formats and returns a string with attributes of a Motorcycle.
+	 *  */
 	virtual std::string toString() const override {
 		return std::format("{}, {} - {} ({})\nUses {}, equipped with {} tires and {} gps", 
 			brand, model, year, bodyType, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand));

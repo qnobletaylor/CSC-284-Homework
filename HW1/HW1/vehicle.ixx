@@ -36,14 +36,13 @@ public:
 	Engine getEngine() const { return engine; }
 	Wheel getWheelType() const { return wheelType; }
 	GPS getGPSBrand() const { return gpsBrand; }
-
 	std::string getEngine(Engine) const;
 	std::string getWheel(Wheel) const;
 	std::string getGPS(GPS) const;
 
 	virtual int getCount() const { return vehicleCount; }
 
+	// Overriden functions
 	virtual std::size_t hashCode() const noexcept;
-
 	virtual std::string toString() const = 0;
 };

@@ -8,10 +8,12 @@ private:
 	int loadCapacity; // max weight truck can carry (lbs)
 public:
 	~Truck() { truckCount--; }
+
 	Truck(std::string brand, std::string model, int year, int loadCapacity) : Vehicle(brand, model, year) {
 		this->loadCapacity = loadCapacity;
 		truckCount++;
 	}
+
 	Truck(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand, int loadCapacity)
 		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
 		this->loadCapacity = loadCapacity;
@@ -24,12 +26,18 @@ public:
 
 	virtual int getCount() const { return truckCount; }
 
+	/**
+	 * Creates a hash code using Truck specific attributes.
+	 *  */
 	virtual std::size_t hashCode() const noexcept {
 		std::size_t h1 = std::hash<int>{}(loadCapacity);
 
 		return Vehicle::hashCode() ^ (h1 << 1);
 	}
 
+	/**
+	 * Formats and returns a string with the attributes of a Truck.
+	 *  */
 	virtual std::string toString() const override {
 		return std::format("{}, {} - {}\nUses {}, equipped with {} tires and {} gps\nTow Capacity - {} lbs", 
 			brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
