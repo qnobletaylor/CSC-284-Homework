@@ -1,5 +1,5 @@
 
-### Vehicle Management System
+### Vehicle Rental Management System
 
 #### Homework 1
 
@@ -17,3 +17,30 @@ with the Visual Studio solution file `~/../HW1/HW1.sln`. This will open the proj
 already chosen as the standard.
 
 Use `ctrl + F5` and the program will run.
+
+---
+
+#### Exercise Questions
+
+1) Which classes should inherit from a base class?
+
+I decided to make the Vehicle class a generic base class which contains all the shared attributes between  
+the other subclasses (car, truck, motorcycle). The three subclasses thus inherit all of the attributes and  
+functions which I designed for the Vehicle class.
+
+2) Which classes should be contained within other classes as components?
+
+I used three enum classes to represent certain vehicle components such as Wheel, Engine, and GPS types.  
+These are stored within the Vehicle class as attributes and are thus inherited by it's subclasses.  
+Going forward, it would be cool to add a time/date class or use a prexisting one to include an attribute which  
+stores a timestamp for when a vehicle is check in/out of the system.
+
+3) How would you modify the design to support new vehicle types without major code changes?
+
+Currently because the generic class Vehicle includes most attributes that all vehicles would normally share,  
+the ability to add new vehicle types is already fairly straight forward. One would just create a new class which  
+extends from Vehicle and add any type specific attributes.
+
+Another option for increasing scaleability is to create a container class which stores rental information  
+such as time/date of rental, price, etc. While containing a Vehicle as an attribute as well. This contianer class  
+could be made as a template which accepts any derived classes of Vehicle.
