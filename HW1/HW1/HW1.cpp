@@ -81,6 +81,8 @@ int main()
         }
     } while (doesContinue);
 
+    std::cout << "Exiting" << std::endl;
+
     return 0;
 }
 
