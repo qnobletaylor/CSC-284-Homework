@@ -53,14 +53,8 @@ std::string Vehicle::getWheel(Wheel wheel) const {
 	case Wheel::WINTER:
 		return "Winter";
 		break;
-	case Wheel::SUMMER:
-		return "Summer";
-		break;
 	case Wheel::PERFORMANCE:
 		return "Performance";
-		break;
-	case Wheel::MUD:
-		return "Mud";
 		break;
 	default:
 		return "Unkown Wheel Type";

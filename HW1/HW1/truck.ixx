@@ -39,7 +39,7 @@ public:
 	 * Formats and returns a string with the attributes of a Truck.
 	 *  */
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {}\nUses {}, equipped with {} tires and {} gps\nTow Capacity - {} lbs", 
+		return std::format("{}, {} - {}\n\tUses {}, equipped with {} tires and {} gps\n\tTow Capacity - {} lbs", 
 			brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
 	};
 };

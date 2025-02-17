@@ -13,9 +13,7 @@ export enum class Wheel {
 	ALLSEASON,
 	OFFROAD,
 	WINTER,
-	SUMMER,
 	PERFORMANCE,
-	MUD
 };
 
 export enum class GPS {

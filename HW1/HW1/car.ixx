@@ -49,7 +49,7 @@ public:
 	 * Return a formatted string with the attributes of a Car.
 	 *  */
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {} ({})\nUses {}, equipped with {} tires and {} gps\nseats {}", 
-			brand, model, year, bodyType, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), seatCapacity);
+		return std::format("{}, {} - {} ({}), seats{}\n\tUses {}, equipped with {} tires and {} gps", 
+			brand, model, year, bodyType, seatCapacity, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand));
 	};
 };

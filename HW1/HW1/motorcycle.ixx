@@ -38,7 +38,7 @@ public:
 	 * Formats and returns a string with attributes of a Motorcycle.
 	 *  */
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {} ({})\nUses {}, equipped with {} tires and {} gps", 
+		return std::format("{}, {} - {} ({})\n\tUses {}, equipped with {} tires and {} gps", 
 			brand, model, year, bodyType, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand));
 	};
 };
