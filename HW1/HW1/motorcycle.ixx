@@ -5,7 +5,6 @@ import vehicleComponents;
 
 export class Motorcycle : public Vehicle {
 private:
-	static int motorcycleCount;
 	std::string bodyType; // dirt, sport, touring, etc.
 public:
 	~Motorcycle() { motorcycleCount--; }
@@ -18,6 +17,8 @@ public:
 		this->bodyType = bodyType;
 		motorcycleCount++;
 	}
+
+	static int motorcycleCount;
 
 	// Getters/Setters
 	void setBodyType(std::string bodyType) { this->bodyType = bodyType; }

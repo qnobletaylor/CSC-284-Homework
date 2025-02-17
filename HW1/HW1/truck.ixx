@@ -4,7 +4,6 @@ import vehicle;
 
 export class Truck : public Vehicle {
 private:
-	static int truckCount;
 	int loadCapacity; // max weight truck can carry (lbs)
 public:
 	~Truck() { truckCount--; }
@@ -19,6 +18,8 @@ public:
 		this->loadCapacity = loadCapacity;
 		truckCount++;
 	}
+
+	static int truckCount;
 
 	// Getters/Setters
 	void setLoadCapacity(int loadCapacity) { this->loadCapacity = loadCapacity; }

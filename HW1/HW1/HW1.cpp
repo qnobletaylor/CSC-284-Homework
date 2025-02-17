@@ -14,17 +14,18 @@ int Motorcycle::motorcycleCount = 0;
 int Vehicle::vehicleCount = 0;
 
 // Function explanations above definitions
-void fillInventory(std::unordered_map<std::size_t, std::unique_ptr<Vehicle>> &inventory);
+void fillInventory(std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory);
 bool validateInput(char input);
-void printInventory(const std::unordered_map<std::size_t, std::unique_ptr<Vehicle>> &inventory);
-void promptVehicleAttributes(char vehicleType, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>> &inventory);
+void printInventory(const std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory);
+void promptVehicleAttributes(char vehicleType, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory);
 Engine parseEngineChoice(char input);
 Wheel parseWheelChoice(char input);
 GPS parseGPSChoice(char input);
+void moveVehicle(char input, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& rented);
 
 int main()
 {
-    bool doesContinue = true;
+    bool doesContinue = true; // To end the main program loop
     char userInput{};
     std::unordered_map<std::size_t, std::unique_ptr<Vehicle>> inventory{};
     std::unordered_map<std::size_t, std::unique_ptr<Vehicle>> rentedInventory{};
@@ -35,7 +36,7 @@ int main()
     do {
         do { // Continues to prompt if invalid input is given
             std::cout << "Please choose from the list of options:" << std::endl;
-            std::cout << "\tA) View available vehicles\n\tB) Add new vehicle\n\tC) Rent Vehicle\n\tD) Exit" << std::endl;
+            std::cout << "\tA) View vehicles\n\tB) Add new vehicle\n\tC) Rent/Return Vehicle\n\tD) Exit" << std::endl;
             std::cin >> userInput;
             std::cin.ignore(100, '\n');
         } while (!validateInput(userInput));
@@ -44,7 +45,14 @@ int main()
         {
         case ('a'):
         case ('A'):
-            printInventory(inventory);
+            do {
+                std::cout << "Which inventory would you like to view?" << std::endl;
+                std::cout <<"\tA) Available Vehicles\n\tB) Rented Vehicles" << std::endl;
+                std::cin >> userInput;
+                std::cin.ignore(100, '\n');
+            } while (!validateInput(userInput));
+            if (userInput == 'a' || userInput == 'A') printInventory(inventory);
+            else if (userInput == 'b' || userInput == 'B') printInventory(rentedInventory);
             break;
         case ('b'):
         case ('B'):
@@ -58,18 +66,20 @@ int main()
             break;
         case ('c'):
         case ('C'):
-            return true;
+            do {
+                std::cout << "Rent or return a vehicle?\n\tA) Rent\n\tB) Return" << std::endl;
+                std::cin >> userInput;
+                std::cin.ignore(100, '\n');
+            } while (!validateInput(userInput));
+            moveVehicle(userInput, inventory, rentedInventory);
             break;
         case ('d'):
         case ('D'):
         default:
-            doesContinue = false;
+            doesContinue = false; // End of program
             break;
         }
     } while (doesContinue);
-
-
-
 
     return 0;
 }
@@ -126,11 +136,15 @@ bool validateInput(char input) {
  * Prints the items in the a map of Vehicles.
  *  */
 void printInventory(const std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>&inventory) {
+    if (inventory.size() == 0) return;
+
     int i = 0;
     for (const auto& pair : inventory) {
         i++;
         std::cout << std::format("[ {} ]   {}\n", i, pair.second->toString()) << std::endl;
     }
+
+    std::cout << std::format("{} Vehicles | {} Cars, {} Trucks, {} Motorcycles\n", Vehicle::vehicleCount, Car::carCount, Truck::truckCount, Motorcycle::motorcycleCount) << std::endl;
 }
 
 /**
@@ -303,5 +317,51 @@ GPS parseGPSChoice(char input) {
     default:
         return GPS::GARMIN;
         break;
+    }
+}
+
+/**
+ * Asks a user for index of a vehicle to move from the available inventory to the rented inventory map.
+ *  */
+void moveVehicle(char input, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& rented) {
+    int indexInput;
+    int i = 0;
+
+    if (input == 'a' || input == 'A') {
+        std::cout << "Please enter the index of the vehicle being rented:" << std::endl;
+        std::cin >> indexInput;
+        while (!std::cin.good() || indexInput > inventory.size() || indexInput < 1) {
+            std::cin.clear();
+            std::cin.ignore(100, '\n');
+            std::cout << "Enter a valid integer index within range:" << std::endl;
+            std::cin >> indexInput;
+        }
+        for (auto& pair : inventory) {
+            i++;
+            if (indexInput == i) {
+                rented.emplace(pair.first, std::move(pair.second));
+                inventory.erase(pair.first);
+                return;
+            }
+        }
+    }
+    else if (input == 'b' || input == 'B') {
+        std::cout << "Please enter the index of the vehicle being returned:" << std::endl;
+        std::cin >> indexInput;
+        while (!std::cin.good() || indexInput > rented.size() || indexInput < 1) {
+            std::cin.clear();
+            std::cin.ignore(100, '\n');
+            std::cout << "Enter a valid integer index within range:" << std::endl;
+            std::cin >> indexInput;
+        }
+
+        for (auto& pair : rented) {
+            i++;
+            if (indexInput == i) {
+                inventory.emplace(pair.first, std::move(pair.second));
+                rented.erase(pair.first);
+                return;
+            }
+        }
     }
 }

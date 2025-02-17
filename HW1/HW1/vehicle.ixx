@@ -15,12 +15,12 @@ protected:
 	Wheel wheelType;
 	GPS gpsBrand;
 
-	static int vehicleCount;
-
 public:
 	~Vehicle() { vehicleCount--; }
 	Vehicle(std::string brand, std::string model, int year) : Vehicle(brand, model, year, Engine::GAS, Wheel::ALLSEASON, GPS::GARMIN) {};
 	Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand);
+
+	static int vehicleCount;
 
 	// Setters
 	void setBrand(std::string brand) { this->brand = brand; }

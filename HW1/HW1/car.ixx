@@ -6,7 +6,6 @@ import <iostream>;
 
 export class Car : public Vehicle {
 private:
-	static int carCount;
 	std::string bodyType; //sedan, coupe, suv, etc.
 	int seatCapacity;
 public:
@@ -26,6 +25,8 @@ public:
 		this->seatCapacity = seatCapacity;
 		carCount++;
 	}
+
+	static int carCount;
 
 	// Getters/Setters
 	void setBodyType(std::string bodyType) { this->bodyType = bodyType;	}
