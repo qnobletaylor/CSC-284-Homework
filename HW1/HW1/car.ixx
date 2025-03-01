@@ -9,9 +9,10 @@ private:
 	std::string bodyType; //sedan, coupe, suv, etc.
 	int seatCapacity;
 public:
-	~Car() { 
+	~Car() {
 		std::cout << "Destroyed" << std::endl;
-		carCount--; }
+		carCount--;
+	}
 
 	Car(std::string brand, std::string model, int year, std::string bodyType, int seatCapacity) : Vehicle(brand, model, year) {
 		this->bodyType = bodyType;
@@ -19,7 +20,7 @@ public:
 		carCount++;
 	}
 
-	Car(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand, std::string bodyType, int seatCapacity)
+	Car(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsBrand, std::string bodyType, int seatCapacity)
 		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
 		this->bodyType = bodyType;
 		this->seatCapacity = seatCapacity;
@@ -29,10 +30,10 @@ public:
 	static int carCount;
 
 	// Getters/Setters
-	void setBodyType(std::string bodyType) { this->bodyType = bodyType;	}
-	void setSeatCapacity(int seatCapacity) { this->seatCapacity = seatCapacity;	}
+	void setBodyType(std::string bodyType) { this->bodyType = bodyType; }
+	void setSeatCapacity(int seatCapacity) { this->seatCapacity = seatCapacity; }
 	std::string getBodyType() const { return bodyType; }
-	int getSeatCapacity() const {	return seatCapacity; }
+	int getSeatCapacity() const { return seatCapacity; }
 
 	virtual int getCount() const { return carCount; }
 
@@ -50,7 +51,7 @@ public:
 	 * Return a formatted string with the attributes of a Car.
 	 *  */
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {} ({}), seats{}\n\tUses {}, equipped with {} tires and {} gps", 
+		return std::format("{}, {} - {} ({}), seats {}\n\tUses {}, equipped with {} tires and {} gps",
 			brand, model, year, bodyType, seatCapacity, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand));
 	};
 };

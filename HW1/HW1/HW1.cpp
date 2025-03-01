@@ -1,4 +1,5 @@
 import <iostream>;
+import <iomanip>;
 import <string>;
 import <memory>;
 import <unordered_map>;
@@ -18,6 +19,7 @@ void fillInventory(std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& in
 bool validateInput(char input);
 void printInventory(const std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory);
 void promptVehicleAttributes(char vehicleType, std::unordered_map<std::size_t, std::unique_ptr<Vehicle>>& inventory);
+int checkInputError();
 Engine parseEngineChoice(char input);
 Wheel parseWheelChoice(char input);
 GPS parseGPSChoice(char input);
@@ -37,7 +39,7 @@ int main() {
 			std::cout << "Please choose from the list of options:" << std::endl;
 			std::cout << "\tA) View vehicles\n\tB) Add new vehicle\n\tC) Rent/Return Vehicle\n\tD) Exit" << std::endl;
 			std::cin >> userInput;
-			std::cin.ignore(100, '\n');
+			std::cin.ignore(INT_MAX, '\n');
 		} while (!validateInput(userInput));
 
 		switch (userInput) {
@@ -47,7 +49,7 @@ int main() {
 				std::cout << "Which inventory would you like to view?" << std::endl;
 				std::cout << "\tA) Available Vehicles\n\tB) Rented Vehicles" << std::endl;
 				std::cin >> userInput;
-				std::cin.ignore(100, '\n');
+				std::cin.ignore(INT_MAX, '\n');
 			} while (!validateInput(userInput));
 
 			if (userInput == 'a' || userInput == 'A') printInventory(inventory);
@@ -60,7 +62,7 @@ int main() {
 				std::cout << "What type of vehicle would you like to add to the system: " << std::endl;
 				std::cout << "\tA) Car\n\tB) Truck\n\tC) Motorcycle" << std::endl;
 				std::cin >> userInput;
-				std::cin.ignore(100, '\n');
+				std::cin.ignore(INT_MAX, '\n');
 			} while (!validateInput(userInput));
 
 			promptVehicleAttributes(userInput, inventory);
@@ -71,7 +73,7 @@ int main() {
 			do {
 				std::cout << "Rent or return a vehicle?\n\tA) Rent\n\tB) Return" << std::endl;
 				std::cin >> userInput;
-				std::cin.ignore(100, '\n');
+				std::cin.ignore(INT_MAX, '\n');
 			} while (!validateInput(userInput));
 
 			moveVehicle(userInput, inventory, rentedInventory);
@@ -169,13 +171,7 @@ void promptVehicleAttributes(char vehicleType, std::unordered_map<std::size_t, s
 	std::getline(std::cin, model);
 
 	std::cout << "Year of manufactur:" << std::endl;
-	std::cin >> year;
-	while (!std::cin.good()) { // Checking for a valid integer, will reprompt if invalid
-		std::cin.clear();
-		std::cin.ignore(100, '\n');
-		std::cout << "Enter a valid integer for year:" << std::endl;
-		std::cin >> year;
-	}
+	year = checkInputError();
 
 	do {
 		std::cout << "Would you like to enter specific parts (engine, wheels, gps) or use defaults (gas, allseason, garmin)?" << std::endl;
@@ -206,43 +202,46 @@ void promptVehicleAttributes(char vehicleType, std::unordered_map<std::size_t, s
 		gps = GPS::GARMIN;
 	}
 	if (vehicleType == 'a' || vehicleType == 'A') { // Car
-		std::cin.ignore(100, '\n');
+		std::cin.ignore(INT_MAX, '\n');
 		std::cout << "Enter the body type of the car:" << std::endl;
 		std::getline(std::cin, bodyType);
 
 		std::cout << "Number of seats in the car:" << std::endl;
-		std::cin >> seatsOrLbs;
-		while (!std::cin.good()) {
-			std::cin.clear();
-			std::cin.ignore(100, '\n');
-			std::cout << "Enter a valid integer for # of seats:" << std::endl;
-			std::cin >> seatsOrLbs;
-		}
+		seatsOrLbs = checkInputError();
 
 		auto car = std::make_unique<Car>(brand, model, year, engine, wheel, gps, bodyType, seatsOrLbs);
 		inventory.emplace(car->hashCode(), std::move(car));
 	}
 	else if (vehicleType == 'b' || vehicleType == 'B') { // Truck
 		std::cout << "Enter carrying capacity of truck (lbs):" << std::endl;
-		std::cin >> seatsOrLbs;
-		while (!std::cin.good()) {
-			std::cin.clear();
-			std::cin.ignore(100, '\n');
-			std::cout << "Enter a valid integer for carrying capacity:" << std::endl;
-			std::cin >> seatsOrLbs;
-		}
+		seatsOrLbs = checkInputError();
 
 		auto truck = std::make_unique<Truck>(brand, model, year, engine, wheel, gps, seatsOrLbs);
 		inventory.emplace(truck->hashCode(), std::move(truck));
 	}
 	else if (vehicleType == 'c' || vehicleType == 'C') { // Motorcycle
-		std::cin.ignore(100, '\n');
+		std::cin.ignore(INT_MAX, '\n');
 		std::cout << "Enter the body type of the motorcycle:" << std::endl;
 		std::getline(std::cin, bodyType);
 
 		auto motorcycle = std::make_unique<Motorcycle>(brand, model, year, engine, wheel, gps, bodyType);
 		inventory.emplace(motorcycle->hashCode(), std::move(motorcycle));
 	}
+}
+
+int checkInputError() {
+	int input = 0;
+	std::cin >> std::setw(1) >> input;
+	while (!std::cin.good()) {
+		std::cin.clear();
+		std::cin.ignore(INT_MAX, '\n');
+		std::cout << "Enter a valid integer for carrying capacity:" << std::endl;
+		std::cin >> input;
+	}
+
+	std::cin.ignore(INT_MAX, '\n');
+
+	return input;
 }
 
 /**
@@ -334,13 +333,8 @@ void moveVehicle(char input, std::unordered_map<std::size_t, std::unique_ptr<Veh
 
 	if (input == 'a' || input == 'A') {
 		std::cout << "Please enter the index of the vehicle being rented:" << std::endl;
-		std::cin >> indexInput;
-		while (!std::cin.good() || indexInput > inventory.size() || indexInput < 1) {
-			std::cin.clear();
-			std::cin.ignore(100, '\n');
-			std::cout << "Enter a valid integer index within range:" << std::endl;
-			std::cin >> indexInput;
-		}
+		indexInput = checkInputError();
+
 		for (auto& pair : inventory) {
 			i++;
 			if (indexInput == i) {
@@ -352,13 +346,7 @@ void moveVehicle(char input, std::unordered_map<std::size_t, std::unique_ptr<Veh
 	}
 	else if (input == 'b' || input == 'B') {
 		std::cout << "Please enter the index of the vehicle being returned:" << std::endl;
-		std::cin >> indexInput;
-		while (!std::cin.good() || indexInput > rented.size() || indexInput < 1) {
-			std::cin.clear();
-			std::cin.ignore(100, '\n');
-			std::cout << "Enter a valid integer index within range:" << std::endl;
-			std::cin >> indexInput;
-		}
+		indexInput = checkInputError();
 
 		for (auto& pair : rented) {
 			i++;

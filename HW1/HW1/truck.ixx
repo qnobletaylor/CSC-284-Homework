@@ -13,7 +13,7 @@ public:
 		truckCount++;
 	}
 
-	Truck(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand, int loadCapacity)
+	Truck(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsBrand, int loadCapacity)
 		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
 		this->loadCapacity = loadCapacity;
 		truckCount++;
@@ -23,7 +23,7 @@ public:
 
 	// Getters/Setters
 	void setLoadCapacity(int loadCapacity) { this->loadCapacity = loadCapacity; }
-	int getLoadCapacity() const {	return loadCapacity; }
+	int getLoadCapacity() const { return loadCapacity; }
 
 	virtual int getCount() const { return truckCount; }
 
@@ -40,7 +40,7 @@ public:
 	 * Formats and returns a string with the attributes of a Truck.
 	 *  */
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {}\n\tUses {}, equipped with {} tires and {} gps\n\tTow Capacity - {} lbs", 
+		return std::format("{}, {} - {}\n\tUses {}, equipped with {} tires and {} gps\n\tTow Capacity - {} lbs",
 			brand, model, year, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand), loadCapacity);
 	};
 };

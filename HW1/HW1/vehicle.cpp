@@ -4,17 +4,17 @@ import <string>;
 /**
  * Primary constructor for all vehicles
  * */
-Vehicle::Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsbrand) {
+Vehicle::Vehicle(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsBrand) {
 	this->brand = brand;
 	this->model = model;
 	this->year = year;
 	this->engine = engine;
 	this->wheelType = wheelType;
-	this->gpsBrand = gpsbrand;
+	this->gpsBrand = gpsBrand;
 	vehicleCount++;
 }
 
-/** 
+/**
 * Converts enum value to a string
 * */
 std::string Vehicle::getEngine(Engine engine) const {
@@ -63,7 +63,7 @@ std::string Vehicle::getWheel(Wheel wheel) const {
 }
 
 /**
- * Converts enum to a string. 
+ * Converts enum to a string.
  */
 std::string Vehicle::getGPS(GPS gps) const {
 	switch (gps)

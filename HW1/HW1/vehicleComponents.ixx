@@ -1,7 +1,5 @@
 export module vehicleComponents;
 
-import <string>;
-
 export enum class Engine {
 	GAS,
 	DIESEL,
