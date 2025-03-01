@@ -37,7 +37,7 @@ stores a timestamp for when a vehicle is check in/out of the system.
 
 3) How would you modify the design to support new vehicle types without major code changes?
 
-Currently because the generic class Vehicle includes most attributes that all vehicles would normally share,  
+Currently because the abstract class Vehicle includes most attributes that all vehicles would normally share,  
 the ability to add new vehicle types is already fairly straight forward. One would just create a new class which  
 extends from Vehicle and add any type specific attributes.
 
