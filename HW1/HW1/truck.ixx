@@ -7,12 +7,10 @@ private:
 	int loadCapacity; // max weight truck can carry (lbs)
 public:
 	~Truck() { truckCount--; }
-
 	Truck(std::string brand, std::string model, int year, int loadCapacity) : Vehicle(brand, model, year) {
 		this->loadCapacity = loadCapacity;
 		truckCount++;
 	}
-
 	Truck(std::string brand, std::string model, int year, Engine engine, Wheel wheelType, GPS gpsBrand, int loadCapacity)
 		: Vehicle(brand, model, year, engine, wheelType, gpsBrand) {
 		this->loadCapacity = loadCapacity;

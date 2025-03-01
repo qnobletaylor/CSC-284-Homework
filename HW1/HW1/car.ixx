@@ -9,10 +9,7 @@ private:
 	std::string bodyType; //sedan, coupe, suv, etc.
 	int seatCapacity;
 public:
-	~Car() {
-		std::cout << "Destroyed" << std::endl;
-		carCount--;
-	}
+	~Car() { carCount--; }
 
 	Car(std::string brand, std::string model, int year, std::string bodyType, int seatCapacity) : Vehicle(brand, model, year) {
 		this->bodyType = bodyType;

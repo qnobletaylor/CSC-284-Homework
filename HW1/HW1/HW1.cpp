@@ -235,7 +235,7 @@ int checkInputError() {
 	while (!std::cin.good()) {
 		std::cin.clear();
 		std::cin.ignore(INT_MAX, '\n');
-		std::cout << "Enter a valid integer for carrying capacity:" << std::endl;
+		std::cout << "Enter a valid integer:" << std::endl;
 		std::cin >> input;
 	}
 
