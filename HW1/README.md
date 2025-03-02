@@ -5,7 +5,7 @@
 
 This console program simulates a simple management system that might exist at a car  
 rental company. The program allows a user to add different types of vehicles (car, truck, or motorcycle)  
-as well as customizing the attributes of them. The three types are derived from a generic Vehicle  
+as well as customizing the attributes of them. The three types are derived from an abstract Vehicle  
 class allowing for polymorphic behaviour and allows easier storing within the same datastructure.  
 Lastly, the program allows the user to move created vehicles between two datastructures which  
 signify a list of already rented vehicles and ones which are available for rental.
@@ -24,7 +24,7 @@ Use `ctrl + F5` and the program will run.
 
 1) Which classes should inherit from a base class?
 
-I decided to make the Vehicle class a generic base class which contains all the shared attributes between  
+I decided to make the Vehicle class an abstract base class which contains all the shared attributes between  
 the other subclasses (car, truck, motorcycle). The three subclasses thus inherit all of the attributes and  
 functions which I designed for the Vehicle class.
 
