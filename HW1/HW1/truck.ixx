@@ -23,7 +23,7 @@ public:
 	void setLoadCapacity(int loadCapacity) { this->loadCapacity = loadCapacity; }
 	int getLoadCapacity() const { return loadCapacity; }
 
-	virtual int getCount() const { return truckCount; }
+	virtual int getCount() const override { return truckCount; }
 
 	/**
 	 * Creates a hash code using Truck specific attributes.

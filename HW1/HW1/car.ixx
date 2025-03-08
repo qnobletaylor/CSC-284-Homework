@@ -32,7 +32,7 @@ public:
 	std::string getBodyType() const { return bodyType; }
 	int getSeatCapacity() const { return seatCapacity; }
 
-	virtual int getCount() const { return carCount; }
+	virtual int getCount() const override { return carCount; }
 
 	/**
 	 * Creates a hash code with the additional Car specific attributes.

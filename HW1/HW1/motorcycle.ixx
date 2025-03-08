@@ -24,7 +24,7 @@ public:
 	void setBodyType(std::string bodyType) { this->bodyType = bodyType; }
 	std::string getBodyType() const { return bodyType; }
 
-	virtual int getCount() const { return motorcycleCount; }
+	virtual int getCount() const override { return motorcycleCount; }
 
 	/**
 	 * Creates a hash code with Motorcycle specific attributes.
@@ -39,7 +39,7 @@ public:
 	 * Formats and returns a string with attributes of a Motorcycle.
 	 *  */
 	virtual std::string toString() const override {
-		return std::format("{}, {} - {} ({})\n\tUses {}, equipped with {} tires and {} gps", 
+		return std::format("{}, {} - {} ({})\n\tUses {}, equipped with {} tires and {} gps",
 			brand, model, year, bodyType, getEngine(engine), getWheel(wheelType), getGPS(gpsBrand));
 	};
 };
