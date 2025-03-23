@@ -18,20 +18,6 @@ public:
 	double price;
 };
 
-//void to_json(json& j, const basicItem& i) {
-//	j = json{ {"name", i.name},
-//		{"category", i.category},
-//		{"quantity", i.quantity},
-//		{"price", i.price} };
-//}
-//
-//void from_json(const json& j, basicItem& i) {
-//	j.at("name").get_to(i.name);
-//	j.at("category").get_to(i.category);
-//	j.at("quantity").get_to(i.quantity);
-//	j.at("price").get_to(i.price);
-//}
-
 export template <typename T>
 class InventoryProcessor {
 private:

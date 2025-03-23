@@ -5,6 +5,12 @@ import <iostream>;
 
 using json = nlohmann::json;
 
+/*
+* Macro for allowing json to convert to custom type, in this case baseItem
+* https://json.nlohmann.me/features/arbitrary_types/
+*/
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(basicItem, name, category, quantity, price);
+
 template<>
 InventoryProcessor<basicItem>::InventoryProcessor(const std::string& filePath) : file(filePath), vectorData() {
 	if (!file.is_open()) {
@@ -21,10 +27,8 @@ void InventoryProcessor<basicItem>::fillVector() {
 	json data = json::parse(file);
 	for (auto i : data["inventory"]) {
 		basicItem item;
-		i.at("name").get_to(item.name);
-		i.at("category").get_to(item.category);
-		i.at("quantity").get_to(item.quantity);
-		i.at("price").get_to(item.price);
+
+		item = i.template get<basicItem>();
 
 		vectorData.push_back(item);
 	}
