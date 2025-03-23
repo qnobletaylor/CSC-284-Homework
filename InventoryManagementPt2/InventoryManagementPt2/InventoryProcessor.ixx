@@ -14,6 +14,7 @@ class InventoryProcessor {
 private:
 	std::ifstream file;
 	std::vector<T> vectorData;
+	T product;
 
 	void fillVector();
 public:

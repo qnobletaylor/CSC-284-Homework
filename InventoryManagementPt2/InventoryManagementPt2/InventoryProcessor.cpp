@@ -12,10 +12,6 @@ using json = nlohmann::json;
 */
 //NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(BasicProduct, name, category, quantity, price);
 
-template<typename T>
-InventoryProcessor<T>::~InventoryProcessor() {
-	file.close();
-}
 
 template<>
 InventoryProcessor<BasicProduct>::~InventoryProcessor() {
@@ -23,18 +19,12 @@ InventoryProcessor<BasicProduct>::~InventoryProcessor() {
 }
 
 template<typename T>
-InventoryProcessor<T>::InventoryProcessor(const std::string& filePath) : file(filePath), vectorData() {
-	if (!file.is_open()) {
-		throw std::string("Failed to open file");
-	}
-	else {
-		fillVector();
-	}
+InventoryProcessor<T>::~InventoryProcessor() {
+	file.close();
 }
 
-
 template<>
-InventoryProcessor<BasicProduct>::InventoryProcessor(const std::string& filePath) : file(filePath), vectorData() {
+InventoryProcessor<BasicProduct>::InventoryProcessor(const std::string& filePath) : file(filePath), vectorData(), product() {
 	if (!file.is_open()) {
 		throw std::string("Failed to open file");
 	}
@@ -44,28 +34,43 @@ InventoryProcessor<BasicProduct>::InventoryProcessor(const std::string& filePath
 }
 
 template<typename T>
-void InventoryProcessor<T>::fillVector() {
-	json data = json::parse(file);
-	for (auto i : data["inventory"]) {
-		T item(i);
-
-		vectorData.push_back(item);
+InventoryProcessor<T>::InventoryProcessor(const std::string& filePath) : file(filePath), vectorData(), product() {
+	if (!file.is_open()) {
+		throw std::string("Failed to open file");
+	}
+	else {
+		fillVector();
 	}
 }
 
 template<>
 void InventoryProcessor<BasicProduct>::fillVector() {
 	json data = json::parse(file);
-	for (auto i : data["inventory"]) {
-		BasicProduct item(i);
-		vectorData.push_back(item);
+	for (auto& i : data["inventory"]) {
+		product.from_json(i);
+		vectorData.push_back(product);
+	}
+}
+
+template<typename T>
+void InventoryProcessor<T>::fillVector() {
+	json data = json::parse(file);
+	for (auto& i : data["inventory"]) {
+		product.from_json(i);
+		vectorData.push_back(product);
 	}
 }
 
 template<>
 void InventoryProcessor<BasicProduct>::printData() {
 	for (auto i : vectorData) {
-		std::cout << i.name << "\n" << i.category << "\n" << i.quantity << "\n" << i.price;
-		std::cout << "\n" << std::endl;
+		std::cout << i << "\n" << std::endl;
+	}
+}
+
+template<typename T>
+void InventoryProcessor<T>::printData() {
+	for (auto i : vectorData) {
+		std::cout << i << "\n" << std::endl;
 	}
 }

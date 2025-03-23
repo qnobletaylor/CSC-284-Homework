@@ -17,7 +17,9 @@ public:
 
 	BasicProduct();
 	BasicProduct(const json& j);
+	friend std::ostream& operator<<(std::ostream& stream, const BasicProduct& product);
 
+	std::string toString() const;
 	void from_json(const json& j);
 };
 
