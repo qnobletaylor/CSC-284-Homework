@@ -1,24 +1,15 @@
 module;
-#include "json.hpp" // include must go before export module
 
 export module InventoryProcessor;
 
+import "json.hpp";
 import <fstream>;
 import <vector>;
 import <string>;
 
 using json = nlohmann::json;
 
-export class basicItem
-{
-public:
-	std::string name;
-	std::string category;
-	unsigned int quantity;
-	double price;
-};
-
-export template <typename T = basicItem>
+export template <typename T>
 class InventoryProcessor {
 private:
 	std::ifstream file;
