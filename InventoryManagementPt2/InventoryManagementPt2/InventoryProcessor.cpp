@@ -2,6 +2,7 @@ import InventoryProcessor;
 import BasicProduct;
 import <fstream>;
 import <iostream>;
+import <sstream>;
 import <string>;
 import <map>;
 import "json.hpp";
@@ -77,6 +78,20 @@ void InventoryProcessor<BasicProduct>::process() { // Will be used to fill proce
 			categories.at(i.category).second += value;
 		}
 	}
+
+	// a bit ugly like this but best I'm coming up with right now.
+	for (auto iter = categories.begin(); iter != categories.end(); iter++) {
+		processedData["category_summary"][iter->first]["total_items"] = iter->second.first;
+		processedData["category_summary"][iter->first]["total_value"] = iter->second.second;
+
+	}
+
+	processedData["total_stock_value"] = totalValue;
+	processedData["most_expensive_product"]["name"] = highestValue.name;
+	processedData["most_expensive_product"]["price"] = highestValue.price;
+
+	// Just to check if it worked.
+	std::cout << processedData.dump(4) << std::endl;
 }
 
 template<typename T>

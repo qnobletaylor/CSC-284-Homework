@@ -16,6 +16,7 @@ private:
 	std::vector<T> data;
 	json processedData;
 
+	json createCustomJson();
 public:
 	InventoryProcessor();
 	InventoryProcessor(const std::string& filePath);
