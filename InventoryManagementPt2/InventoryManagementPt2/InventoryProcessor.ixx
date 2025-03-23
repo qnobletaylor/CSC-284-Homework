@@ -4,22 +4,25 @@ export module InventoryProcessor;
 
 import "json.hpp";
 import <fstream>;
+import <iostream>;
 import <vector>;
 import <string>;
+import BasicProduct;
 
 using json = nlohmann::json;
+
 
 export template <typename T>
 class InventoryProcessor {
 private:
-	std::ifstream file;
-	std::vector<T> vectorData;
-	T product;
+	std::vector<T> data;
+	json processedData;
 
-	void fillVector();
 public:
-	~InventoryProcessor();
+	InventoryProcessor();
 	InventoryProcessor(const std::string& filePath);
 
+	void readFromFile(const std::string& filePath);
+	void process();
 	void printData();
 };
