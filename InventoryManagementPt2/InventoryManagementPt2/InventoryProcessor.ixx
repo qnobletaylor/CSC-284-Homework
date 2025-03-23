@@ -18,7 +18,7 @@ public:
 	double price;
 };
 
-export template <typename T>
+export template <typename T = basicItem>
 class InventoryProcessor {
 private:
 	std::ifstream file;
@@ -26,5 +26,8 @@ private:
 
 	void fillVector();
 public:
+	~InventoryProcessor();
 	InventoryProcessor(const std::string& filePath);
+
+	void printData();
 };

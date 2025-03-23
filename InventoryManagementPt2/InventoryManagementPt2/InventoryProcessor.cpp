@@ -12,14 +12,18 @@ using json = nlohmann::json;
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(basicItem, name, category, quantity, price);
 
 template<>
+InventoryProcessor<basicItem>::~InventoryProcessor() {
+	file.close();
+}
+
+template<>
 InventoryProcessor<basicItem>::InventoryProcessor(const std::string& filePath) : file(filePath), vectorData() {
 	if (!file.is_open()) {
-		std::cout << "failed to open" << std::endl;
+		throw std::string("Failed to open file");
 	}
 	else {
 		fillVector();
 	}
-
 }
 
 template<>
@@ -32,6 +36,12 @@ void InventoryProcessor<basicItem>::fillVector() {
 
 		vectorData.push_back(item);
 	}
+}
 
-	std::cout << vectorData.at(0).category << std::endl;
+template<>
+void InventoryProcessor<basicItem>::printData() {
+	for (auto i : vectorData) {
+		std::cout << i.name << "\n" << i.category << "\n" << i.quantity << "\n" << i.price;
+		std::cout << "\n" << std::endl;
+	}
 }

@@ -7,7 +7,13 @@ using json = nlohmann::json;
 
 int main() {
 
-	InventoryProcessor<basicItem> s("inventory.json");
+	try {
+		InventoryProcessor<basicItem> inventory("./inventory.json");
+		inventory.printData();
+	}
+	catch (const std::string& e) {
+		std::cout << e << std::endl;
+	}
 
 	return 0;
 }
