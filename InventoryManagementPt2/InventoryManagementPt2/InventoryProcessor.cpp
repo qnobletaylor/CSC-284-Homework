@@ -39,7 +39,7 @@ void InventoryProcessor<T>::readFromFile(const std::string& filePath) {
 	std::ifstream file(filePath);
 
 	if (!file.good()) {
-		throw std::string("Error opening json file...");
+		throw std::string("Error opening json file to read from.");
 	}
 	else {
 		json jsonData = json::parse(file);
@@ -47,6 +47,22 @@ void InventoryProcessor<T>::readFromFile(const std::string& filePath) {
 			T product(i);
 			data.push_back(product);
 		}
+	}
+	file.close();
+}
+
+/**
+ * Writes the processedData json object to a file of a given name.
+ *  */
+template<typename T>
+void InventoryProcessor<T>::writeToFile(const std::string& filePath) {
+	std::ofstream file(filePath);
+
+	if (!file.good()) {
+		throw std::string("Error opening file to write to.");
+	}
+	else {
+		file << processedData.dump(4); //argument '4' sets tab size to 4 which makes output pretty
 	}
 	file.close();
 }
@@ -60,15 +76,17 @@ void InventoryProcessor<T>::readFromFile(const std::string& filePath) {
  * I can't think of a way to make this generic at the moment so only the BasicProduct instance of this method
  * is currently defined.
  *  */
-template<>
-void InventoryProcessor<BasicProduct>::process() { // Will be used to fill processedData json attribute
+template<typename T>
+void InventoryProcessor<T>::process() { // Will be used to fill processedData json attribute
 	std::map<std::string, std::pair<int, double>> categories{};
 	double totalValue{ 0 }, value{ 0 };
-	BasicProduct highestValue{};
+	T highestValue{};
 
 	for (const auto& i : data) { // Adds each object to the map, only concerned with category so name is omitted
 		value = (i.price * i.quantity);
+
 		if (highestValue.price < i.price) highestValue = i;
+
 		totalValue += value;
 
 		if (categories.emplace(i.category, std::pair<int, double>(i.quantity, value)).second) {
@@ -79,24 +97,24 @@ void InventoryProcessor<BasicProduct>::process() { // Will be used to fill proce
 		}
 	}
 
-	// a bit ugly like this but best I'm coming up with right now.
-	for (auto iter = categories.begin(); iter != categories.end(); iter++) {
+	createCustomJson(categories, highestValue, totalValue);
+}
+
+/**
+ * Takes data in a map, product, and totalValue:double and puts parses it back to json format.
+ * This method is fairly specific to BasicProduct, it needs to be made more generic or any other data type
+ * woudl also need to have at least the same attributes as BasicProduct (name, category, quantity, and price)
+ *  */
+template<typename T>
+void InventoryProcessor<T>::createCustomJson(const std::map<std::string, std::pair<int, double>>& map, const T& product, const double& totalValue) {
+	for (auto iter = map.begin(); iter != map.end(); iter++) {
 		processedData["category_summary"][iter->first]["total_items"] = iter->second.first;
 		processedData["category_summary"][iter->first]["total_value"] = iter->second.second;
 
 	}
 
 	processedData["total_stock_value"] = totalValue;
-	processedData["most_expensive_product"]["name"] = highestValue.name;
-	processedData["most_expensive_product"]["price"] = highestValue.price;
+	processedData["most_expensive_product"]["name"] = product.name;
+	processedData["most_expensive_product"]["price"] = product.price;
 
-	// Just to check if it worked.
-	std::cout << processedData.dump(4) << std::endl;
-}
-
-template<typename T>
-void InventoryProcessor<T>::printData() {
-	for (const auto& i : data) {
-		std::cout << i << "\n" << std::endl;
-	}
 }

@@ -37,9 +37,10 @@ using json = nlohmann::json;
 int main() {
 
 	try {
-		InventoryProcessor<BasicProduct> inventory("./inventory.json");
-		//inventory.printData();
+		InventoryProcessor<BasicProduct> inventory;
+		inventory.readFromFile("./inventory.json");
 		inventory.process();
+		inventory.writeToFile("./test.json");
 	}
 	catch (const std::string& e) {
 		std::cerr << e << std::endl;

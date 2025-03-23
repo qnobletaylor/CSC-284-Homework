@@ -16,12 +16,12 @@ private:
 	std::vector<T> data;
 	json processedData;
 
-	json createCustomJson();
+	void createCustomJson(const std::map<std::string, std::pair<int, double>>&, const T&, const double&);
 public:
 	InventoryProcessor();
 	InventoryProcessor(const std::string& filePath);
 
 	void readFromFile(const std::string& filePath);
+	void writeToFile(const std::string& filePath);
 	void process();
-	void printData();
 };
