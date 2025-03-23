@@ -38,7 +38,7 @@ int main() {
 
 	try {
 		InventoryProcessor<BasicProduct> inventory("./inventory.json");
-		inventory.printData();
+		//inventory.printData();
 		inventory.process();
 	}
 	catch (const std::string& e) {

@@ -3,8 +3,6 @@ module;
 export module InventoryProcessor;
 
 import "json.hpp";
-import <fstream>;
-import <iostream>;
 import <vector>;
 import <string>;
 import BasicProduct;
