@@ -107,14 +107,40 @@ void InventoryProcessor<T>::process() { // Will be used to fill processedData js
  *  */
 template<typename T>
 void InventoryProcessor<T>::createCustomJson(const std::map<std::string, std::pair<int, double>>& map, const T& product, const double& totalValue) {
-	for (auto iter = map.begin(); iter != map.end(); iter++) {
-		processedData["category_summary"][iter->first]["total_items"] = iter->second.first;
-		processedData["category_summary"][iter->first]["total_value"] = iter->second.second;
-
-	}
-
 	processedData["total_stock_value"] = totalValue;
 	processedData["most_expensive_product"]["name"] = product.name;
 	processedData["most_expensive_product"]["price"] = product.price;
 
+	for (auto iter = map.begin(); iter != map.end(); iter++) {
+		processedData["category_summary"][iter->first]["total_items"] = iter->second.first;
+		processedData["category_summary"][iter->first]["total_value"] = iter->second.second;
+	}
+}
+
+template<typename T>
+std::string InventoryProcessor<T>::getData() const {
+	std::ostringstream ss{};
+	if (data.empty()) {
+		ss << "No data has been parsed yet.";
+	}
+	else {
+		for (const auto& item : data) {
+			ss << item << "\n\n";
+		}
+	}
+
+	return ss.str();
+}
+
+template<typename T>
+std::string InventoryProcessor<T>::getProcessedData() const {
+	std::ostringstream ss{};
+	if (processedData.empty()) {
+		ss << "Data has not been processed yet.";
+	}
+	else {
+		ss << processedData.dump(4);
+	}
+
+	return ss.str();
 }

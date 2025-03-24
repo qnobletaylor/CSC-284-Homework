@@ -14,7 +14,7 @@ export template <typename T>
 class InventoryProcessor {
 private:
 	std::vector<T> data;
-	json processedData;
+	nlohmann::ordered_json processedData; // this type will preserve insertion order
 
 	void createCustomJson(const std::map<std::string, std::pair<int, double>>&, const T&, const double&);
 public:
@@ -24,4 +24,6 @@ public:
 	void readFromFile(const std::string& filePath);
 	void writeToFile(const std::string& filePath);
 	void process();
+	std::string getData() const;
+	std::string getProcessedData() const;
 };
