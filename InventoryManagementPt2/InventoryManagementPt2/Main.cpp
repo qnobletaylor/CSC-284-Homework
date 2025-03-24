@@ -79,7 +79,7 @@ int main() {
 		case 'B':
 		case 'b':
 			std::cout << "Enter new file name to write to: ";
-			std::cin >> filePath;
+			std::cin >> std::setw(0) >> filePath;
 			break;
 		default:
 			std::cout << "Unknown choice entered..." << std::endl;
@@ -92,6 +92,7 @@ int main() {
 		std::cerr << "Incorrect file extension, replacing with .json" << std::endl;
 		filePath.replace_extension(".json");
 	}
+
 	// Writing to file
 	try {
 		inventory.writeToFile(filePath.string());
