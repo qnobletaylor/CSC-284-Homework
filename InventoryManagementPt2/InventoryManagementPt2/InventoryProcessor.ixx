@@ -5,6 +5,7 @@ export module InventoryProcessor;
 import "json.hpp";
 import <vector>;
 import <string>;
+import <map>;
 import BasicProduct;
 
 using json = nlohmann::json;

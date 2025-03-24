@@ -1,38 +1,17 @@
 /*
-* Website I found particularly helpful:
+* Sources I found particularly helpful for using nlohmann/json in addition to the documentation:
 * https://www.studyplan.dev/pro-cpp/json#The%20JSON%20Data%20Format
+*
+* https://www.youtube.com/watch?v=NuWQp_uAvwo
 */
 
 import <iostream>;
 import <fstream>;
 import <filesystem>;
-import "json.hpp";
+import <string>;
 import InventoryProcessor;
 import BasicProduct;
 
-
-using json = nlohmann::json;
-
-// ** Using this to test template class **
-//class anotherObject {
-//public:
-//	std::string name;
-//	std::string category;
-//	unsigned int quantity;
-//	double price;
-//
-//	void from_json(const json& j) {
-//		j.at("name").get_to<std::string>(this->name);
-//		j.at("category").get_to<std::string>(this->category);
-//		j.at("quantity").get_to<unsigned int>(this->quantity);
-//		j.at("price").get_to<double>(this->price);
-//	}
-//
-//	friend std::ostream& operator<<(std::ostream& stream, const anotherObject& product) {
-//		stream << "product.toString()";
-//		return stream;
-//	}
-//};
 
 int main() {
 	char choice{ 'x' };
@@ -45,7 +24,7 @@ int main() {
 	// Validate file existence
 	while (!std::filesystem::exists(filePath) || filePath.extension() != ".json") {
 		std::cerr << "Please enter valid json file name/path to read from (including extension): ";
-		std::cin >> filePath;
+		std::cin >> filePath; // std::filesystem::path overloads '>>' operator, converts string to path
 	}
 	// Reading from file/processing
 	try {
@@ -66,8 +45,8 @@ int main() {
 	std::cin >> filePath;
 	// Validate input
 	while (std::filesystem::exists(filePath)) {
-		std::cout << "File already exists, would you like to overwrite or choose a new filename to create:";
-		std::cout << "\n\tA) Rename Existing\n\tB) Choose new file name\n";
+		std::cout << "File already exists, would you like to make a copy or choose a new filename to create:";
+		std::cout << "\n\tA) Make a copy\n\tB) Choose new file name\n";
 		std::cin >> std::setw(1) >> choice; // setw(1) only allows single char input
 
 		switch (choice)

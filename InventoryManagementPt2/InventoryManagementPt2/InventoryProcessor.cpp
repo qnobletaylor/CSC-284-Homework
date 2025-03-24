@@ -117,9 +117,13 @@ void InventoryProcessor<T>::createCustomJson(const std::map<std::string, std::pa
 	}
 }
 
+/**
+ * Puts each item toString into a stringstream and returns the result. Also checks if data has been parsed yet.
+ *  */
 template<typename T>
 std::string InventoryProcessor<T>::getData() const {
 	std::ostringstream ss{};
+
 	if (data.empty()) {
 		ss << "No data has been parsed yet.";
 	}
@@ -132,15 +136,15 @@ std::string InventoryProcessor<T>::getData() const {
 	return ss.str();
 }
 
+/**
+ * Checks if data has been processed yet, returns it as a neatly formatted string if so.
+ *  */
 template<typename T>
 std::string InventoryProcessor<T>::getProcessedData() const {
-	std::ostringstream ss{};
 	if (processedData.empty()) {
-		ss << "Data has not been processed yet.";
+		return "Data has not been processed yet.";
 	}
 	else {
-		ss << processedData.dump(4);
+		return processedData.dump(4);
 	}
-
-	return ss.str();
 }
