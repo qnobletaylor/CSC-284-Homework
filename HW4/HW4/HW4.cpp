@@ -8,6 +8,7 @@ cpr::Response readPost(int postID);
 cpr::Response addPost();
 cpr::Payload getPayload();
 cpr::Response updatePost(int postID);
+cpr::Response deletePost(int postID);
 
 int main()
 {
@@ -40,10 +41,16 @@ int main()
 			std::cout << "Response: \n" << response.text << std::endl;
 			break;
 		case(4):
+			std::cout << "Post ID: ";
+			std::cin >> postID;
+			response = deletePost(postID);
+			std::cout << response.status_code << " Post deleted." << std::endl;
 			break;
 		case(5):
+			std::cout << "Exiting program..." << std::endl;
 			break;
 		default:
+			std::cerr << "Unknown command entered, please try again." << std::endl;
 			break;
 		}
 
@@ -82,4 +89,10 @@ cpr::Response updatePost(int postID) {
 	std::cout << "Updating:" << readPost(postID).text << std::endl;
 
 	return cpr::Put(url, getPayload());
+}
+
+cpr::Response deletePost(int postID) {
+	cpr::Url url{ "https://jsonplaceholder.typicode.com/posts/" + std::to_string(postID) };
+
+	return cpr::Delete(url);
 }
