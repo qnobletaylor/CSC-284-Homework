@@ -6,12 +6,12 @@ import "cpr/cpr.h";
 
 cpr::Response readPost(int postID);
 cpr::Response addPost();
-cpr::Payload getParams();
+cpr::Payload getPayload();
+cpr::Response updatePost(int postID);
 
 int main()
 {
-	int choice = 0;
-	int postID = 0;
+	int choice{ 0 }, postID{ 0 };
 	cpr::Response response{};
 
 
@@ -34,6 +34,10 @@ int main()
 			std::cout << "Response: \n" << response.text << std::endl;
 			break;
 		case(3):
+			std::cout << "Post ID: ";
+			std::cin >> postID;
+			response = updatePost(postID);
+			std::cout << "Response: \n" << response.text << std::endl;
 			break;
 		case(4):
 			break;
@@ -49,7 +53,7 @@ int main()
 }
 
 cpr::Response readPost(int postID) {
-	cpr::Url url = cpr::Url{ "https://jsonplaceholder.typicode.com/posts/" + std::to_string(postID) };
+	cpr::Url url{ "https://jsonplaceholder.typicode.com/posts/" + std::to_string(postID) };
 
 	return cpr::Get(url);
 }
@@ -57,11 +61,11 @@ cpr::Response readPost(int postID) {
 cpr::Response addPost() {
 	cpr::Url url{ "https://jsonplaceholder.typicode.com/posts" };
 
-	return cpr::Post(url, getParams());
+	return cpr::Post(url, getPayload());
 }
 
 
-cpr::Payload getParams() {
+cpr::Payload getPayload() {
 	std::string title{}, body{};
 
 	std::cin.ignore(1000, '\n');
@@ -71,4 +75,11 @@ cpr::Payload getParams() {
 	std::getline(std::cin, body);
 
 	return cpr::Payload{ {"title", title}, {"body", body}, {"userId", "1"} };
+}
+
+cpr::Response updatePost(int postID) {
+	cpr::Url url{ "https://jsonplaceholder.typicode.com/posts/" + std::to_string(postID) };
+	std::cout << "Updating:" << readPost(postID).text << std::endl;
+
+	return cpr::Put(url, getPayload());
 }
