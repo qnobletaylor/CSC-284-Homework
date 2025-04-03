@@ -2,6 +2,7 @@
 //
 import <iostream>;
 import <string>;
+import <stdexcept>;
 #include <limits.h>; // for MAX_INT
 import "cpr/cpr.h";
 
@@ -28,26 +29,52 @@ int main()
 		switch (choice)
 		{
 		case(1): // GET
-			std::cout << "Post ID: ";
-			checkInputError(postID);
-			response = readPost(postID);
-			std::cout << "Fetching Post: \n" << response.text << std::endl;
+			try
+			{
+				std::cout << "Post ID: ";
+				checkInputError(postID);
+				response = readPost(postID);
+
+				std::cout << "Fetching Post: \n" << response.text << std::endl;
+			}
+			catch (const std::invalid_argument& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+
 			break;
 		case(2): // POST
 			response = addPost();
 			std::cout << "Created Post: \n" << response.text << std::endl;
+
 			break;
 		case(3): // PUT
-			std::cout << "Post ID: ";
-			checkInputError(postID);
-			response = updatePost(postID);
-			std::cout << "Updated Post: \n" << response.text << std::endl;
+			try
+			{
+				std::cout << "Post ID: ";
+				checkInputError(postID);
+				response = updatePost(postID);
+				std::cout << "Updated Post: \n" << response.text << std::endl;
+			}
+			catch (const std::invalid_argument& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+
 			break;
 		case(4): // DELETE
-			std::cout << "Post ID: ";
-			checkInputError(postID);
-			response = deletePost(postID);
-			std::cout << response.status_code << " Post deleted successfuly." << std::endl;
+			try
+			{
+				std::cout << "Post ID: ";
+				checkInputError(postID);
+				response = deletePost(postID);
+				std::cout << response.status_code << " Post deleted successfuly." << std::endl;
+			}
+			catch (const std::invalid_argument& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+
 			break;
 		case(5):
 			std::cout << "Exiting program..." << std::endl;
@@ -62,11 +89,16 @@ int main()
 
 /**
  * Returns a get Response from the server using postID to determine what data to get.
+ *
+ * Throws invalid_argument if there is no post for the given postID param.
  *  */
 cpr::Response readPost(const int& postID) {
 	cpr::Url url{ BASE_URL + std::to_string(postID) };
+	cpr::Response temp = cpr::Get(url);
 
-	return cpr::Get(url);
+	if (temp.status_code != 200) throw std::invalid_argument("Error: post does not exist.");
+
+	return temp;
 }
 
 /**
@@ -94,21 +126,36 @@ cpr::Payload createPayload() {
 
 /**
  * Returns a Response for updating a post, will call createPayload() to get new input for the post.
+ *
+ * Throws invalid_argument if there is no post for the given postID param.
  *  */
 cpr::Response updatePost(const int& postID) {
 	cpr::Url url{ BASE_URL + std::to_string(postID) };
-	std::cout << "Updating:" << readPost(postID).text << std::endl;
+
+	try
+	{
+		std::cout << "Updating:\n" << readPost(postID).text << std::endl;
+	}
+	catch (const std::invalid_argument& e)
+	{
+		throw e; // rethrow the exception
+	}
 
 	return cpr::Put(url, createPayload());
 }
 
 /**
  * Returns a response for deleting a post.
+ *
+ * Throws invalid_argument if there is no post for the given postID param.
  *  */
 cpr::Response deletePost(const int& postID) {
 	cpr::Url url{ BASE_URL + std::to_string(postID) };
+	cpr::Response temp = cpr::Delete(url);
 
-	return cpr::Delete(url);
+	if (temp.status_code != 200) throw std::invalid_argument("Error: post does not exist.");
+
+	return temp;
 }
 
 /**
@@ -119,7 +166,7 @@ void checkInputError(int& input) {
 	while (!std::cin.good()) {
 		std::cin.clear();
 		std::cin.ignore(INT_MAX, '\n');
-		std::cout << "Enter a valid integer: ";
+		std::cerr << "Enter a valid integer: ";
 		std::cin >> input;
 	}
 
