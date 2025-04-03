@@ -5,11 +5,11 @@ import <string>;
 #include <limits.h>; // for MAX_INT
 import "cpr/cpr.h";
 
-cpr::Response readPost(int postID);
+cpr::Response readPost(const int& postID);
 cpr::Response addPost();
 cpr::Payload createPayload();
-cpr::Response updatePost(int postID);
-cpr::Response deletePost(int postID);
+cpr::Response updatePost(const int& postID);
+cpr::Response deletePost(const int& postID);
 void checkInputError(int& input);
 
 // Global variable for URL, thinking this can be changed in one spot if you wanted to get data from another source
@@ -27,23 +27,23 @@ int main()
 
 		switch (choice)
 		{
-		case(1):
+		case(1): // GET
 			std::cout << "Post ID: ";
 			checkInputError(postID);
 			response = readPost(postID);
 			std::cout << "Fetching Post: \n" << response.text << std::endl;
 			break;
-		case(2):
+		case(2): // POST
 			response = addPost();
 			std::cout << "Created Post: \n" << response.text << std::endl;
 			break;
-		case(3):
+		case(3): // PUT
 			std::cout << "Post ID: ";
 			checkInputError(postID);
 			response = updatePost(postID);
 			std::cout << "Updated Post: \n" << response.text << std::endl;
 			break;
-		case(4):
+		case(4): // DELETE
 			std::cout << "Post ID: ";
 			checkInputError(postID);
 			response = deletePost(postID);
@@ -60,18 +60,27 @@ int main()
 	} while (choice != 5);
 }
 
-cpr::Response readPost(int postID) {
+/**
+ * Returns a get Response from the server using postID to determine what data to get.
+ *  */
+cpr::Response readPost(const int& postID) {
 	cpr::Url url{ BASE_URL + std::to_string(postID) };
 
 	return cpr::Get(url);
 }
 
+/**
+ * Returns a Response for posting a new json item, calls createPayload() to get input from the user.
+ *  */
 cpr::Response addPost() {
 	cpr::Url url{ BASE_URL };
 
 	return cpr::Post(url, createPayload());
 }
 
+/**
+ * Returns a Payload object, prompts the user to enter a title and body for the json post.
+ *  */
 cpr::Payload createPayload() {
 	std::string title{}, body{};
 
@@ -83,19 +92,28 @@ cpr::Payload createPayload() {
 	return cpr::Payload{ {"title", title}, {"body", body}, {"userId", "1"} };
 }
 
-cpr::Response updatePost(int postID) {
+/**
+ * Returns a Response for updating a post, will call createPayload() to get new input for the post.
+ *  */
+cpr::Response updatePost(const int& postID) {
 	cpr::Url url{ BASE_URL + std::to_string(postID) };
 	std::cout << "Updating:" << readPost(postID).text << std::endl;
 
 	return cpr::Put(url, createPayload());
 }
 
-cpr::Response deletePost(int postID) {
+/**
+ * Returns a response for deleting a post.
+ *  */
+cpr::Response deletePost(const int& postID) {
 	cpr::Url url{ BASE_URL + std::to_string(postID) };
 
 	return cpr::Delete(url);
 }
 
+/**
+ * Gets numeric input from a user and validates that correct input has been given.
+ *  */
 void checkInputError(int& input) {
 	std::cin >> std::setw(1) >> input;
 	while (!std::cin.good()) {
