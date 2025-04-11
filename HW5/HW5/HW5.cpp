@@ -14,16 +14,22 @@ int main() {
 	lib.add_book(Book{ "book6", "author1", 2022, "genre1" });
 
 
-	auto list = lib.get_books_by_author("author1");
+	auto temp1 = lib.get_books_by_author("author1");
 
-	auto list2 = lib.get_books_by_genre("genre1");
+	auto temp2 = lib.get_books_by_genre("genre1");
 
-	for (auto i : list) {
+	std::cout << "Author::\n\n";
+
+	for (auto& i : temp1) {
 		std::cout << i.toString() << "\n";
 	}
-	for (auto i : list2) {
+
+	std::cout << "Genre::\n\n";
+
+	for (auto& i : temp2) {
 		std::cout << i.toString() << "\n";
 	}
+
 
 
 
