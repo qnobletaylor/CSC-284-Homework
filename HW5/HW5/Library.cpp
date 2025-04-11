@@ -1,7 +1,7 @@
 import Library;
 import <stdexcept>;
 import <sstream>;
-#include <ranges>
+import <algorithm>;
 import <ranges>;
 import <vector>;
 
@@ -61,7 +61,7 @@ std::vector<Book> Library::get_books_by_author(const std::string& author) const 
 /**
  * Filters the list of books to find all books in a given genre.
  *
- * Return the list of books with matching genre.
+ * Return the list of books with matching genre sorted by year descending.
  *  */
 std::vector<Book> Library::get_books_by_genre(const std::string& genre) const {
 	std::vector<Book> temp{};
@@ -69,6 +69,9 @@ std::vector<Book> Library::get_books_by_genre(const std::string& genre) const {
 	for (auto& i : storage | std::views::filter([genre](Book b) {return b.genre == genre;})) {
 		temp.push_back(i);
 	}
+
+	// Sorts according to year descending
+	std::ranges::sort(temp, [](Book a, Book b) {return a.year > b.year;});
 
 	return temp;
 }

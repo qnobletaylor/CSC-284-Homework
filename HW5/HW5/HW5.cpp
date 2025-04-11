@@ -6,12 +6,12 @@ int main() {
 
 	Library lib{};
 
-	lib.add_book(Book{ "book1", "author1", 2022, "genre1" });
+	lib.add_book(Book{ "book1", "author1", 2021, "genre1" });
 	lib.add_book(Book{ "book2", "author2", 2022, "genre1" });
-	lib.add_book(Book{ "book3", "author3", 2022, "genre2" });
-	lib.add_book(Book{ "book4", "author2", 2022, "genre3" });
-	lib.add_book(Book{ "book5", "author1", 2022, "genre1" });
-	lib.add_book(Book{ "book6", "author1", 2022, "genre1" });
+	lib.add_book(Book{ "book3", "author3", 2023, "genre2" });
+	lib.add_book(Book{ "book4", "author2", 2024, "genre3" });
+	lib.add_book(Book{ "book5", "author1", 2025, "genre1" });
+	lib.add_book(Book{ "book6", "author1", 2026, "genre1" });
 
 	std::cout << lib.toString();
 
