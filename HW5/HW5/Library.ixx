@@ -13,7 +13,7 @@ public:
 	Library();
 
 	Book add_book(const Book& book);
-	Book remove_book(const std::string& title);
+	void remove_book(const std::string& title);
 	Book find_book(const std::string& title) const;
 	std::vector<Book> get_books_by_author(const std::string& author) const;
 	std::vector<Book> get_books_by_genre(const std::string& genre) const;

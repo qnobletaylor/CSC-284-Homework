@@ -13,6 +13,13 @@ int main() {
 	lib.add_book(Book{ "book5", "author1", 2022, "genre1" });
 	lib.add_book(Book{ "book6", "author1", 2022, "genre1" });
 
+	std::cout << lib.toString();
+
+	lib.remove_book("book1");
+
+	std::cout << lib.find_book("book2").toString();
+
+	std::cout << lib.toString();
 
 	auto temp1 = lib.get_books_by_author("author1");
 
