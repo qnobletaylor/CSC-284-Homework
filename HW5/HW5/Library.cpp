@@ -4,7 +4,6 @@ import <sstream>;
 import <algorithm>;
 import <ranges>;
 import <iostream>;
-import <vector>;
 
 
 
@@ -42,9 +41,8 @@ void Library::remove_book(const std::string& title) {
 Book Library::find_book(const std::string& title) const {
 	auto iter = std::find_if(storage.begin(), storage.end(), [title](const Book& b) {return b.title == title;});
 
-	return *iter;
-
-	throw std::invalid_argument(title + " not found in library");
+	if (iter != storage.end()) return *iter;
+	else throw std::invalid_argument(title + " not found in library");
 }
 
 /**
@@ -71,6 +69,19 @@ std::vector<Book> Library::get_books_by_genre(const std::string& genre) const {
 	std::vector<Book> temp{};
 
 	for (auto& i : storage | std::views::filter([genre](Book b) {return b.genre == genre;})) {
+		temp.push_back(i);
+	}
+
+	return temp;
+}
+
+/**
+ * Filters the list so that any book published past a given year is returned.
+ *  */
+std::vector<Book> Library::filter_by_year(const int& year) const {
+	std::vector<Book> temp{};
+
+	for (auto& i : storage | std::views::filter([year](Book b) {return b.year >= year;})) {
 		temp.push_back(i);
 	}
 

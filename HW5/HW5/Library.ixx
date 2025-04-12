@@ -2,7 +2,7 @@ export module Library;
 
 import Book;
 import <vector>;
-import<string>;
+import <string>;
 
 export class Library {
 
@@ -18,6 +18,7 @@ public:
 	Book find_book(const std::string& title) const;
 	std::vector<Book> get_books_by_author(const std::string& author) const;
 	std::vector<Book> get_books_by_genre(const std::string& genre) const;
+	std::vector<Book> filter_by_year(const int& year) const;
 	void sortDescending();
 	void sortAscending();
 
