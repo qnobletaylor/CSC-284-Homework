@@ -3,7 +3,9 @@ import <stdexcept>;
 import <sstream>;
 import <algorithm>;
 import <ranges>;
+import <iostream>;
 import <vector>;
+
 
 
 Library::Library() : storage() {};
@@ -29,16 +31,14 @@ void Library::remove_book(const std::string& title) {
 }
 
 /**
- * Iterates through the list of books until a matching title is found and returns the book.
+ * Iterates through the list of books using std::find_if until a matching title is found and returns the book.
  *
  * Else, throws a invalid_argument exception indicating the book is not present.
  *  */
 Book Library::find_book(const std::string& title) const {
-	for (auto iter = storage.begin(); iter != storage.end(); iter++) {
-		if (!iter->title.compare(title)) {
-			return *iter;
-		}
-	}
+	auto iter = std::find_if(storage.begin(), storage.end(), [title](const Book& b) {return b.title == title;});
+
+	return *iter;
 
 	throw std::invalid_argument(title + " not found in library");
 }
@@ -51,7 +51,7 @@ Book Library::find_book(const std::string& title) const {
 std::vector<Book> Library::get_books_by_author(const std::string& author) const {
 	std::vector<Book> temp{};
 
-	for (auto& i : storage | std::views::filter([author](Book b) {return b.author == author;})) {
+	for (auto& i : storage | std::views::filter([author](const Book& b) {return b.author == author;})) {
 		temp.push_back(i);
 	}
 
@@ -71,9 +71,23 @@ std::vector<Book> Library::get_books_by_genre(const std::string& genre) const {
 	}
 
 	// Sorts according to year descending
-	std::ranges::sort(temp, [](Book a, Book b) {return a.year > b.year;});
+	std::ranges::sort(temp, [](const Book& a, const Book& b) {return a.year > b.year;});
 
 	return temp;
+}
+
+/**
+ * Sorts the library by year in descending order.
+ *  */
+void Library::sortDescending() {
+	std::ranges::sort(storage, [](const Book& a, const Book& b) {return a.year > b.year;});
+}
+
+/**
+ * Sorts the library by year in ascending order.
+ *  */
+void Library::sortAscending() {
+	std::ranges::sort(storage, [](const Book& a, const Book& b) {return a.year < b.year;});
 }
 
 /**
@@ -81,9 +95,10 @@ std::vector<Book> Library::get_books_by_genre(const std::string& genre) const {
  *  */
 std::string Library::toString() const {
 	std::stringstream ss{};
-	ss << "Library Contents:\n";
+	ss << "--------------------\n";
 	for (auto iter = storage.begin(); iter != storage.end(); iter++) {
 		ss << iter->toString() << "\n";
 	}
+	ss << "--------------------\n";
 	return ss.str();
 }

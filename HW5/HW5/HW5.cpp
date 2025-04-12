@@ -3,41 +3,34 @@ import Library;
 import <iostream>;
 
 int main() {
-
 	Library lib{};
 
-	lib.add_book(Book{ "book1", "author1", 2021, "genre1" });
-	lib.add_book(Book{ "book2", "author2", 2022, "genre1" });
-	lib.add_book(Book{ "book3", "author3", 2023, "genre2" });
-	lib.add_book(Book{ "book4", "author2", 2024, "genre3" });
-	lib.add_book(Book{ "book5", "author1", 2025, "genre1" });
-	lib.add_book(Book{ "book6", "author1", 2026, "genre1" });
+	lib.add_book(Book{ "1984", "George Orwell", 1949, "Dystopian" });
+	lib.add_book(Book{ "Animal Farm", "George Orwell", 1945, "Dystopian" });
+	lib.add_book(Book{ "The Hobbit", "J.R.R. Tolkien", 1937, "Fantasy" });
+	lib.add_book(Book{ "The Fellowship of the Ring", "J.R.R. Tolkien", 1954, "Fantasy" });
+	lib.add_book(Book{ "Pride and Prejudice", "Jane Austen", 1813, "Romance" });
+	lib.add_book(Book{ "Jane Eyre", "Charlotte Brontë", 1847, "Romance" });
+	lib.add_book(Book{ "The Great Gatsby", "F. Scott Fitzgerald", 1925, "Fiction" });
+	lib.add_book(Book{ "To Kill a Mockingbird", "Harper Lee", 1960, "Fiction" });
+	lib.add_book(Book{ "Frankenstein", "Mary Shelley", 1818, "Fiction" });
+	lib.add_book(Book{ "Dracula", "Bram Stoker", 1897, "Fiction" });
 
-	std::cout << lib.toString();
+	std::cout << "Printing Library: \n" << lib.toString() << std::endl;
 
-	lib.remove_book("book1");
-
-	std::cout << lib.find_book("book2").toString();
-
-	std::cout << lib.toString();
-
-	auto temp1 = lib.get_books_by_author("author1");
-
-	auto temp2 = lib.get_books_by_genre("genre1");
-
-	std::cout << "Author::\n\n";
-
-	for (auto& i : temp1) {
+	std::cout << "Searching for books by author \"J.R.R. Tolkien\"\n";
+	for (const auto& i : lib.get_books_by_author("J.R.R. Tolkien")) {
 		std::cout << i.toString() << "\n";
 	}
 
-	std::cout << "Genre::\n\n";
-
-	for (auto& i : temp2) {
+	std::cout << "Searching for books by genre \"Fiction\"\n";
+	for (const auto& i : lib.get_books_by_genre("Fiction")) {
 		std::cout << i.toString() << "\n";
 	}
 
-
+	std::cout << "Sorting library by release date, descending...\n";
+	lib.sortDescending();
+	std::cout << lib.toString();
 
 
 	return 0;

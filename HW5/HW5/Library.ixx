@@ -17,6 +17,8 @@ public:
 	Book find_book(const std::string& title) const;
 	std::vector<Book> get_books_by_author(const std::string& author) const;
 	std::vector<Book> get_books_by_genre(const std::string& genre) const;
+	void sortDescending();
+	void sortAscending();
 
 	std::string toString() const;
 };
