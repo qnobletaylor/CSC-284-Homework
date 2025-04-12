@@ -10,6 +10,10 @@ import <vector>;
 
 Library::Library() : storage() {};
 
+Library::Library(std::vector<Book> storage) {
+	this->storage = storage;
+};
+
 /**
  * Simply adds a book to the vector of books.
  *
@@ -70,9 +74,6 @@ std::vector<Book> Library::get_books_by_genre(const std::string& genre) const {
 		temp.push_back(i);
 	}
 
-	// Sorts according to year descending
-	std::ranges::sort(temp, [](const Book& a, const Book& b) {return a.year > b.year;});
-
 	return temp;
 }
 
@@ -95,10 +96,10 @@ void Library::sortAscending() {
  *  */
 std::string Library::toString() const {
 	std::stringstream ss{};
-	ss << "--------------------\n";
+	ss << ">>--------------------\n";
 	for (auto iter = storage.begin(); iter != storage.end(); iter++) {
 		ss << iter->toString() << "\n";
 	}
-	ss << "--------------------\n";
+	ss << "--------------------<<\n";
 	return ss.str();
 }

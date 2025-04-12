@@ -11,6 +11,7 @@ private:
 
 public:
 	Library();
+	Library(std::vector<Book> storage);
 
 	Book add_book(const Book& book);
 	void remove_book(const std::string& title);

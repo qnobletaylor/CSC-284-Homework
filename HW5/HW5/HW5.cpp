@@ -19,14 +19,10 @@ int main() {
 	std::cout << "Printing Library: \n" << lib.toString() << std::endl;
 
 	std::cout << "Searching for books by author \"J.R.R. Tolkien\"\n";
-	for (const auto& i : lib.get_books_by_author("J.R.R. Tolkien")) {
-		std::cout << i.toString() << "\n";
-	}
+	std::cout << Library{ lib.get_books_by_author("J.R.R. Tolkien") }.toString();
 
 	std::cout << "Searching for books by genre \"Fiction\"\n";
-	for (const auto& i : lib.get_books_by_genre("Fiction")) {
-		std::cout << i.toString() << "\n";
-	}
+	std::cout << Library{ lib.get_books_by_genre("Fiction") }.toString();
 
 	std::cout << "Sorting library by release date, descending...\n";
 	lib.sortDescending();

@@ -11,5 +11,5 @@ Book::Book(std::string title, std::string author, int year, std::string genre) {
 }
 
 std::string Book::toString() const {
-	return std::format("{} by {} ({}) [{}]", title, author, year, genre);
+	return std::format("{} by {}\n\t({}) [{}]", title, author, year, genre);
 }
