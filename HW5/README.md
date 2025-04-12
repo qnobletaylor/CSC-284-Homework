@@ -5,6 +5,7 @@ class then implements several methods for filtering, sorting, adding, removing, 
 uses C++ STL methods for accesing or mutating the range of Books. The main method of the program within ``HW5.cpp`` 
 will output to the console a preset library of ten books as well as a demo of each method within the Library class, 
 this is simply meant to literally demonstrate the functionality of the Library class.
+
 ---
 - ``add_book(const Book& book)`` : adds a book to the Library
 
